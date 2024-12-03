@@ -1,86 +1,100 @@
-// NOT WORKING ILL WORK ON IT TOMORROW
-
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <vector>
-#include <fstream>
+#include <string>
+#include <cmath>
 
-// Function to check if a report is safe without any removal
-bool is_safe_report(const std::vector<int> &levels)
+using namespace std;
+
+bool checkReport(const vector<int> &arr)
 {
-    bool increasing = true;
-    bool decreasing = true;
+    int diff1 = 0;
+    int diff2 = 0;
+    bool val = true;
 
-    for (size_t i = 1; i < levels.size(); ++i)
+    for (size_t j = 0; j < arr.size() - 1; ++j)
     {
-        int diff = levels[i] - levels[i - 1];
-        if (diff < 1 || diff > 3)
+        diff2 = diff1;
+        diff1 = arr[j] - arr[j + 1];
+
+        if (diff1 < -3 || diff1 > 3)
         {
-            return false; // If difference is not between 1 and 3, report is unsafe
+            val = false;
+            break;
         }
-        if (diff > 0)
-            decreasing = false;
-        if (diff < 0)
-            increasing = false;
+        if (j != 0 && diff1 * diff2 <= 0)
+        {
+            val = false;
+            break;
+        }
     }
 
-    return increasing || decreasing; // Must be either all increasing or all decreasing
+    return val;
 }
 
-// Function to check if a report can be made safe by removing one level
-bool is_safe_with_one_removal(std::vector<int> levels)
+bool dampen(vector<int> &arr)
 {
-    for (size_t i = 0; i < levels.size(); ++i)
+    for (size_t i = 0; i < arr.size(); ++i)
     {
-        std::vector<int> modified_levels = levels;
-        modified_levels.erase(modified_levels.begin() + i); // Remove one level
-        if (is_safe_report(modified_levels))
+        int tmp = arr[i];
+        arr.erase(arr.begin() + i);
+        bool dampen = checkReport(arr);
+        arr.insert(arr.begin() + i, tmp);
+
+        if (dampen)
         {
-            return true; // If removing one level makes it safe, return true
+            return true;
         }
     }
-    return false; // If no level can be removed to make it safe, return false
+
+    return false;
 }
 
 int main()
 {
-    std::ifstream input_file("input.txt"); // Open input file
-    if (!input_file)
+    ifstream inputFile("input.txt");
+    if (!inputFile)
     {
-        std::cerr << "Error opening file!" << std::endl;
-        return 1; // Return an error code if file cannot be opened
+        cerr << "Error: Unable to open input file." << endl;
+        return 1;
     }
 
-    std::string line;
-    int safe_report_count = 0;
+    vector<vector<int>> arr;
+    string line;
 
-    // Read each line from the file
-    while (std::getline(input_file, line))
+    while (getline(inputFile, line))
     {
-        std::vector<int> levels;
-        std::istringstream iss(line);
-        int level;
+        stringstream ss(line);
+        vector<int> tmp;
+        int num;
 
-        // Read the levels from the current report
-        while (iss >> level)
+        while (ss >> num)
         {
-            levels.push_back(level);
+            tmp.push_back(num);
         }
 
-        // Check if the report is safe without any removal
-        if (is_safe_report(levels))
+        arr.push_back(tmp);
+    }
+
+    inputFile.close();
+
+    int res = 0;
+
+    for (auto &subArr : arr)
+    {
+        bool val = checkReport(subArr);
+        if (!val)
         {
-            safe_report_count++;
+            val = dampen(subArr);
         }
-        // If not safe, check if removing one level makes it safe
-        else if (is_safe_with_one_removal(levels))
+        if (val)
         {
-            safe_report_count++;
+            ++res;
         }
     }
 
-    std::cout << "Total safe reports: " << safe_report_count << std::endl;
+    cout << "Number of Safe Reports" << res << endl;
 
-    input_file.close(); // Close the file
     return 0;
 }

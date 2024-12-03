@@ -13,7 +13,22 @@ Here’s the status of each day's parts. Links to solutions are provided for the
 
 ---
 
-## Days 1-25 | hirnaymay (harsh) 3\*
+## Days 1-25
+
+<div class="user" style = "
+  background: #0f0f23,
+  color: #cccccc;
+  font-family: Source Code Pro, 
+  monospace;
+  font-weight: 300;
+  font-size: 14pt;
+  min-width: 60em; 
+">hirnaymay (harsh) 
+<span class="star-count" Style = "
+    color: #ffff66;
+">4*</span>
+
+</div>
 
 ### Day 1
 
@@ -23,12 +38,12 @@ Here’s the status of each day's parts. Links to solutions are provided for the
 ### Day 2
 
 - **[Part 1](https://github.com/octopols/adventofcode2024/tree/main/day2/part1/code.cpp):** ✅ Solved
-- **[Part 2](https://github.com/octopols/adventofcode2024/tree/main/day2/part2/code.cpp):** 🟠 Unsolved
+- **[Part 2](https://github.com/octopols/adventofcode2024/tree/main/day2/part2/code.cpp):** ✅ Solved
 
 ### Day 3
 
-- **Part 1:** ⛔ Not Released
-- **Part 2:** ⛔ Not Released
+- **Part 1:** ⚪ Not Attempted
+- **Part 2:** ⚪ Not Attempted
 
 ### Day 4
 
